@@ -2,6 +2,13 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "java",
+      "name": "DSA/ShorstesUniquePrefix",
+      "request": "launch",
+      "mainClass": "DSA/ShorstesUniquePrefix",
+      "projectName": "DSA_971a5479"
+    },
+    {
       "name": "C/C++ Runner: Debug Session",
       "type": "cppdbg",
       "request": "launch",
