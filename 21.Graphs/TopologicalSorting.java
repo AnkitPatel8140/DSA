@@ -1,5 +1,7 @@
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
 import java.util.Stack;
 
 public class TopologicalSorting {
@@ -27,13 +29,13 @@ public class TopologicalSorting {
         graph[5].add(new Edge(5, 2));
     }
 
-    public static void topSort(ArrayList<Edge>[] graph) {
+    public static void topSortDFS(ArrayList<Edge>[] graph) {
         boolean[] vis = new boolean[graph.length];
         Stack<Integer> s = new Stack<>();
 
         for (int i = 0; i < graph.length; i++) {
             if (!vis[i]) {
-                topSortUtil(graph, i, vis, s);
+                topSortDFSUtil(graph, i, vis, s);
             }
         }
 
@@ -43,20 +45,52 @@ public class TopologicalSorting {
 
     }
 
-
-    public static void topSortUtil(ArrayList<Edge>[] graph, int cur, boolean[] vis, Stack<Integer> s){
+    public static void topSortDFSUtil(ArrayList<Edge>[] graph, int cur, boolean[] vis, Stack<Integer> s) {
         vis[cur] = true;
-        for(int i=0; i<graph[cur].size(); i++){
-            Edge e=graph[cur].get(i);
-            if(!vis[e.des]){
-                topSortUtil(graph, e.des, vis, s);
+        for (int i = 0; i < graph[cur].size(); i++) {
+            Edge e = graph[cur].get(i);
+            if (!vis[e.des]) {
+                topSortDFSUtil(graph, e.des, vis, s);
             }
         }
         s.push(cur);
     }
+
+    public static void calIndgree(ArrayList<Edge>[] graph, int[] indegree) {
+        for (int i = 0; i < graph.length; i++) {
+            for (int j = 0; j < graph[i].size(); j++) {
+                Edge e = graph[i].get(j);
+                indegree[e.des]++;
+            }
+        }
+    }
+
+    public static void topSortBFS(ArrayList<Edge>[] graph) {
+        int[] indegree = new int[graph.length];
+        calIndgree(graph, indegree);
+        Queue<Integer> q = new LinkedList<>();
+        for (int i = 0; i < indegree.length; i++) {
+            if (indegree[i] == 0) {
+                q.add(i);
+            }
+        }
+        while (!q.isEmpty()) {
+            int v = q.remove();
+            System.out.print(v + " ");
+            for (int i = 0; i < graph[v].size(); i++) {
+                Edge e = graph[v].get(i);
+                indegree[e.des]--;
+                if (indegree[e.des] == 0)
+                    q.add(e.des);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         ArrayList<Edge>[] graph = new ArrayList[6];
         createGraph(graph);
-        topSort(graph);
+        topSortDFS(graph);
+        System.out.println();
+        topSortBFS(graph);
     }
 }
