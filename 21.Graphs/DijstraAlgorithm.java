@@ -67,7 +67,7 @@ public class DijstraAlgorithm {
                     int u=e.src;
                     int v=e.des;
                     int wt=e.wt;
-
+                    // performing relaxation
                     if(dist[u]+wt < dist[v]){
                         dist[v]=dist[u]+wt;
                         pq.add(new Pair(v, dist[v]));
