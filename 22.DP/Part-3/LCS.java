@@ -33,6 +33,29 @@ public class LCS {
     
         return dp[idx1][idx2];
     }
+
+    public static int lcsTabulation(String str1, String str2) {
+        int m = str1.length();
+        int n = str2.length();
+
+        int[][] dp = new int[m+1][n+1];
+
+        for(int i = 1; i < dp.length; i++) {
+            for(int j = 1; j < dp[0].length; j++) {
+                char c1 = str1.charAt(i-1);
+                char c2 = str2.charAt(j-1);
+                if(c1 == c2) {
+                    dp[i][j] = dp[i-1][j-1] + 1;
+                    
+                }
+                else {
+                    dp[i][j] = Math.max(dp[i-1][j], dp[i][j-1]);
+                }
+             }
+        }
+
+        return dp[m][n];
+    }
     public static void main(String[] args) {
         String str1 = "abcdge";
         String str2 = "abedg";
@@ -44,5 +67,6 @@ public class LCS {
 
         System.out.println(lcsRecursion(str1, str2, str1.length()-1, str2.length()-1));
         System.out.println(lcsMemoization(str1, str2, str1.length()-1, str2.length()-1, dp));
+        System.out.println(lcsTabulation(str1, str2));
     }
 }
