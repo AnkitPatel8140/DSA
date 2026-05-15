@@ -11,9 +11,9 @@ public class SubarraySumEqualToK {
         hm.put(0, 1);
         for (int i = 0; i < arr.length; i++) {
             sum+=arr[i];
-            int j=sum+k;
+            int j=sum-k;
             if(hm.containsKey(j)){
-                count++;
+                count+=hm.get(j);
             }
             hm.put(sum, hm.getOrDefault(sum, 0)+1);
         }
